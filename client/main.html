@@ -3,14 +3,5 @@
 </head>
 
 <body>
-  {{> bookList}}
+  <div id="root"></div>
 </body>
-
-<template name="bookList">
-  <h3>Here are some books:</h3>
-  <UL>
-    {{#each books}}
-      <LI><i>{{title}}</i> by {{author}}</LI>
-    {{/each}}
-  </UL>
-</template>
