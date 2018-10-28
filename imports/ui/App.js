@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { withTracker } from "meteor/react-meteor-data";
 import { Books } from "../api/books.js";
 import Book from "./Book.js";
@@ -8,11 +9,34 @@ class App extends React.Component {
     return this.props.books.map((book, idx) => <Book key={idx} book={book} />);
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+
+    // Find the text field via the React ref
+    const title = ReactDOM.findDOMNode(this.refs.titleInput).value.trim();
+    const author = ReactDOM.findDOMNode(this.refs.authorInput).value.trim();
+
+    Books.insert({
+      title,
+      author,
+      createdAt: new Date() // current time
+    });
+    // Clear form
+    ReactDOM.findDOMNode(this.refs.titleInput).value = "";
+    ReactDOM.findDOMNode(this.refs.authorInput).value = "";
+  }
+
   render() {
     return (
       <div className="container">
         <header>
           <h1>Book List</h1>
+
+          <form className="new-book" onSubmit={this.handleSubmit.bind(this)}>
+            <input type="text" ref="titleInput" placeholder="title here" />
+            <input type="text" ref="authorInput" placeholder="author here" />
+            <button type="submit" />
+          </form>
         </header>
         <ul>{this.renderBooks()}</ul>
       </div>
