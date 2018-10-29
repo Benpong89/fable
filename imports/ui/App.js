@@ -3,8 +3,14 @@ import ReactDOM from "react-dom";
 import { withTracker } from "meteor/react-meteor-data";
 import { Books } from "../api/books.js";
 import Book from "./Book.js";
+import AccountsUIWrapper from "./AccountsUIWrapper.js";
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   renderBooks() {
     return this.props.books.map((book, idx) => <Book key={idx} book={book} />);
   }
@@ -32,10 +38,12 @@ class App extends React.Component {
         <header>
           <h1>Book List</h1>
 
-          <form className="new-book" onSubmit={this.handleSubmit.bind(this)}>
+          <AccountsUIWrapper />
+
+          <form className="new-book" onSubmit={this.handleSubmit}>
             <input type="text" ref="titleInput" placeholder="title here" />
             <input type="text" ref="authorInput" placeholder="author here" />
-            <button type="submit" />
+            <button className="hidden" type="submit" />
           </form>
         </header>
         <ul>{this.renderBooks()}</ul>
@@ -50,36 +58,5 @@ export default withTracker(() => {
   };
 })(App);
 
-// getBooks() {
-//   return [
-//     { title: "To Kill a Mockingbird", author: "Harper Lee" },
-//     { title: "1984", author: "George Orwell" },
-//     { title: "The Lord of the Rings", author: "J. R. R. Tolkien" },
-//     { title: "The Catcher in the Rye", author: "J. D. Salinger" },
-//     { title: "The Great Gatsby", author: "F. Scott Fitzgerald" }
-//   ];
-// }
-
-// renderBooks() {
-//   this.getBooks().map((book, idx) => {
-//     return (
-//       <ul key={idx}>
-//         <li>{book.title} </li>);
-//         <li>{book.author} </li>);
-//       </ul>
-//     );
-//   });
-// }
-//
-// render() {
-//   return (
-//     <div className="container">
-//       <header>
-//         <h1>Here are your Books!</h1>
-//       </header>
-//
-//       <ul>{this.renderBooks()}</ul>
-//     </div>
-//   );
-// }
-// }
+// If I want to sort my fetch from MongoDB
+// tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
