@@ -38,3 +38,7 @@ class Book extends React.Component {
 }
 
 export default Book;
+
+// <span className="text">
+//   <strong>{this.props.task.username}</strong>: {this.props.book.title}
+// </span>

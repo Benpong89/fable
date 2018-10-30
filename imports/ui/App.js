@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
 import { Books } from "../api/books.js";
 import Book from "./Book.js";
@@ -12,7 +13,12 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   renderBooks() {
-    return this.props.books.map((book, idx) => <Book key={idx} book={book} />);
+    const currUserBooks = this.props.books.filter(
+      book => book.owner === this.props.currentUser._id
+    );
+
+    return currUserBooks.map(book => <Book key={book._id} book={book} />);
+    // return this.props.books.map(book => <Book key={book._id} book={book} />);
   }
 
   handleSubmit(e) {
@@ -25,7 +31,9 @@ class App extends React.Component {
     Books.insert({
       title,
       author,
-      createdAt: new Date() // current time
+      createdAt: new Date(), // current time
+      owner: Meteor.userId(), // _id of logged in user
+      username: Meteor.user().username // username of logged in user
     });
     // Clear form
     ReactDOM.findDOMNode(this.refs.titleInput).value = "";
@@ -36,17 +44,35 @@ class App extends React.Component {
     return (
       <div className="container">
         <header>
-          <h1>Book List</h1>
+          <h1>Welcome to Fable</h1>
 
-          <AccountsUIWrapper />
+          <h2>Your personal library</h2>
 
-          <form className="new-book" onSubmit={this.handleSubmit}>
-            <input type="text" ref="titleInput" placeholder="title here" />
-            <input type="text" ref="authorInput" placeholder="author here" />
-            <button className="hidden" type="submit" />
-          </form>
+          <p>
+            Create an account to Keep track of books that you own, lend and
+            borrow.
+          </p>
+
+          <p>Check out the latest popular books below for inspiration.</p>
+
+          <AccountsUIWrapper className="session-form" />
+          {this.props.currentUser ? (
+            <div>
+              <form className="new-book" onSubmit={this.handleSubmit}>
+                <input type="text" ref="titleInput" placeholder="title here" />
+                <input
+                  type="text"
+                  ref="authorInput"
+                  placeholder="author here"
+                />
+                <button className="hidden" type="submit" />
+              </form>
+              <ul>{this.renderBooks()}</ul>
+            </div>
+          ) : (
+            ""
+          )}
         </header>
-        <ul>{this.renderBooks()}</ul>
       </div>
     );
   }
@@ -54,9 +80,10 @@ class App extends React.Component {
 
 export default withTracker(() => {
   return {
-    books: Books.find({}).fetch()
+    books: Books.find({}).fetch(),
+    currentUser: Meteor.user()
   };
 })(App);
 
 // If I want to sort my fetch from MongoDB
-// tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+// books: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),

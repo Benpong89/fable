@@ -3,6 +3,9 @@ body {
   font-family: sans-serif;
 }
 
+.session-form {
+}
+
 .hidden {
   display: none;
 }

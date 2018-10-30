@@ -12,7 +12,7 @@ export default class AccountsUIWrapper extends Component {
     );
   }
   componentWillUnmount() {
-    // Clean up Blaze view
+    // Clean up Blaze viewf
     Blaze.remove(this.view);
   }
   render() {
