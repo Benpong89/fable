@@ -4,7 +4,7 @@ import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
 import { Books } from "../api/books.js";
 import Book from "./Book.js";
-import AccountsUIWrapper from "./AccountsUIWrapper.js";
+import Navbar from "./Navbar.js";
 
 class App extends React.Component {
   constructor(props) {
@@ -54,8 +54,6 @@ class App extends React.Component {
           </p>
 
           <p>Check out the latest popular books below for inspiration.</p>
-
-          <AccountsUIWrapper className="session-form" />
           {this.props.currentUser ? (
             <div>
               <form className="new-book" onSubmit={this.handleSubmit}>

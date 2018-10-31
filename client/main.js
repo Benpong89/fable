@@ -4,8 +4,9 @@ import { Meteor } from "meteor/meteor";
 import App from "../imports/ui/App.js";
 import "../imports/startup/accounts-config.js";
 import "./main.html";
+import Root from "../imports/ui/Root.js";
 
 Meteor.startup(() => {
   const root = document.getElementById("root");
-  ReactDOM.render(<App />, root);
+  ReactDOM.render(<Root />, root);
 });
