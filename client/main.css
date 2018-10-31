@@ -8,5 +8,15 @@ body {
 }
 
 .navbar-container {
-  background: green;
+  background: lightgray;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  font-family: cursive;
+}
+
+#login-dropdown-list {
+  position: absolute;
+  top: 10px;
+  left: -200px;
 }

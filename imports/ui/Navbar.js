@@ -9,6 +9,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <nav className="navbar-container">
+        <button>Home</button>
         <AccountsUIWrapper className="session-form" />
       </nav>
     );
